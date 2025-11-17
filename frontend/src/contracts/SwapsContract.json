@@ -1,0 +1,576 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_priceOracle",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "swapId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "party",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "CollateralDeposited",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "swapId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "partyB",
+          "type": "address"
+        }
+      ],
+      "name": "SwapAccepted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "swapId",
+          "type": "uint256"
+        }
+      ],
+      "name": "SwapCancelled",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "swapId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "partyA",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "cardIdA",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "cardIdB",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "notionalValueA",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "notionalValueB",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "maturityDate",
+          "type": "uint256"
+        }
+      ],
+      "name": "SwapProposed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "swapId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "settlementPriceA",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "settlementPriceB",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int256",
+          "name": "netPayment",
+          "type": "int256"
+        }
+      ],
+      "name": "SwapSettled",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "MAX_DURATION",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "MIN_DURATION",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_swapId",
+          "type": "uint256"
+        }
+      ],
+      "name": "acceptSwap",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_notionalValue",
+          "type": "uint256"
+        }
+      ],
+      "name": "calculateRequiredCollateral",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_swapId",
+          "type": "uint256"
+        }
+      ],
+      "name": "cancelSwap",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "collateralRatio",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_offset",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_limit",
+          "type": "uint256"
+        }
+      ],
+      "name": "getActiveSwaps",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_swapId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getSwap",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "partyA",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "partyB",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "cardIdA",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "cardIdB",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "notionalValueA",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "notionalValueB",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maturityDate",
+          "type": "uint256"
+        },
+        {
+          "internalType": "enum SwapsContract.SwapStatus",
+          "name": "status",
+          "type": "uint8"
+        },
+        {
+          "internalType": "int256",
+          "name": "currentPnLA",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_swapId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getUnrealizedPnL",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "pnlA",
+          "type": "int256"
+        },
+        {
+          "internalType": "int256",
+          "name": "pnlB",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        }
+      ],
+      "name": "getUserSwaps",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "priceOracle",
+      "outputs": [
+        {
+          "internalType": "contract PriceOracle",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_cardIdA",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_cardIdB",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_notionalValueA",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_notionalValueB",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_duration",
+          "type": "uint256"
+        }
+      ],
+      "name": "proposeSwap",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_swapId",
+          "type": "uint256"
+        }
+      ],
+      "name": "settleSwap",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "swaps",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "swapId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "partyA",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "partyB",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "cardIdA",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "cardIdB",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "notionalValueA",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "notionalValueB",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "startPriceA",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "startPriceB",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "collateralA",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "collateralB",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maturityDate",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "createdAt",
+          "type": "uint256"
+        },
+        {
+          "internalType": "enum SwapsContract.SwapStatus",
+          "name": "status",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "settlementPriceA",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "settlementPriceB",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int256",
+          "name": "netPaymentToA",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalCollateralLocked",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_newRatio",
+          "type": "uint256"
+        }
+      ],
+      "name": "updateCollateralRatio",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "userSwaps",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+}
