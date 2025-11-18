@@ -13,6 +13,13 @@ import {
   Wallet,
   Settings,
   HelpCircle,
+  Calculator,
+  History,
+  DollarSign,
+  Droplet,
+  Vote,
+  MessageSquare,
+  Target,
 } from 'lucide-react';
 import WalletButton from './WalletButton';
 
@@ -23,9 +30,9 @@ export default function MobileNav() {
   const navItems = [
     { href: '/', label: 'Home', icon: Home },
     { href: '/trade', label: 'Trade', icon: TrendingUp },
-    { href: '/analytics', label: 'Analytics', icon: BarChart3 },
-    { href: '/leaderboard', label: 'Leaderboard', icon: Trophy },
-    { href: '/achievements', label: 'Achievements', icon: Award },
+    { href: '/forum', label: 'Forum', icon: MessageSquare },
+    { href: '/liquidity', label: 'Liquidity', icon: Droplet },
+    { href: '/governance', label: 'Governance', icon: Vote },
   ];
 
   const isActive = (href: string) => router.pathname === href;
@@ -119,6 +126,42 @@ export default function MobileNav() {
 
                 {/* Additional Actions */}
                 <div className="pt-6 border-t border-white/10 space-y-2">
+                  <Link href="/risk-survey">
+                    <button
+                      onClick={() => setIsOpen(false)}
+                      className="w-full flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:opacity-90 transition"
+                    >
+                      <Target className="w-5 h-5" />
+                      <span className="font-semibold">Risk Survey</span>
+                    </button>
+                  </Link>
+                  <Link href="/risk-calculator">
+                    <button
+                      onClick={() => setIsOpen(false)}
+                      className="w-full flex items-center gap-3 p-4 rounded-xl bg-white/5 text-gray-400 hover:bg-white/10 transition"
+                    >
+                      <Calculator className="w-5 h-5" />
+                      <span className="font-semibold">Risk Calculator</span>
+                    </button>
+                  </Link>
+                  <Link href="/transaction-history">
+                    <button
+                      onClick={() => setIsOpen(false)}
+                      className="w-full flex items-center gap-3 p-4 rounded-xl bg-white/5 text-gray-400 hover:bg-white/10 transition"
+                    >
+                      <History className="w-5 h-5" />
+                      <span className="font-semibold">Transaction History</span>
+                    </button>
+                  </Link>
+                  <Link href="/card-prices">
+                    <button
+                      onClick={() => setIsOpen(false)}
+                      className="w-full flex items-center gap-3 p-4 rounded-xl bg-white/5 text-gray-400 hover:bg-white/10 transition"
+                    >
+                      <DollarSign className="w-5 h-5" />
+                      <span className="font-semibold">Card Prices</span>
+                    </button>
+                  </Link>
                   <button className="w-full flex items-center gap-3 p-4 rounded-xl bg-white/5 text-gray-400 hover:bg-white/10 transition">
                     <Settings className="w-5 h-5" />
                     <span className="font-semibold">Settings</span>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Trophy, Medal, Crown, TrendingUp, Award, Users } from 'lucide-react';
+import Link from 'next/link';
+import { Trophy, Medal, Crown, TrendingUp, Award, Users, UserCircle } from 'lucide-react';
 import { calculateLevel } from '@/data/achievements';
 
 interface LeaderboardEntry {
@@ -43,7 +44,7 @@ export default function Leaderboard() {
       case 3:
         return <Medal className="w-6 h-6 text-amber-600" />;
       default:
-        return <span className="text-gray-400 font-bold">{rank}</span>;
+        return <span className="text-gray-600 dark:text-gray-400 font-bold">{rank}</span>;
     }
   };
 
@@ -56,7 +57,7 @@ export default function Leaderboard() {
       case 3:
         return 'bg-gradient-to-r from-amber-600 to-amber-700';
       default:
-        return 'bg-white/5';
+        return 'bg-gray-200 dark:bg-white/5';
     }
   };
 
@@ -69,8 +70,8 @@ export default function Leaderboard() {
             <Trophy className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-white">Leaderboard</h2>
-            <p className="text-gray-400 text-sm">Top traders on the platform</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Leaderboard</h2>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">Top traders on the platform</p>
           </div>
         </div>
 
@@ -83,7 +84,7 @@ export default function Leaderboard() {
               className={`px-3 py-1.5 rounded-lg text-sm font-semibold transition ${
                 timeframe === tf
                   ? 'bg-purple-500 text-white'
-                  : 'bg-white/5 text-gray-400 hover:bg-white/10'
+                  : 'bg-gray-200 dark:bg-white/5 text-gray-700 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-white/10'
               }`}
             >
               {tf === 'allTime' ? 'All Time' : tf.charAt(0).toUpperCase() + tf.slice(1)}
@@ -97,7 +98,7 @@ export default function Leaderboard() {
         <button
           onClick={() => setSortBy('pnl')}
           className={`px-4 py-2 rounded-lg font-semibold transition ${
-            sortBy === 'pnl' ? 'bg-green-500 text-white' : 'bg-white/5 text-gray-400 hover:bg-white/10'
+            sortBy === 'pnl' ? 'bg-green-500 text-white' : 'bg-gray-200 dark:bg-white/5 text-gray-700 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-white/10'
           }`}
         >
           <TrendingUp className="w-4 h-4 inline mr-2" />
@@ -106,7 +107,7 @@ export default function Leaderboard() {
         <button
           onClick={() => setSortBy('winRate')}
           className={`px-4 py-2 rounded-lg font-semibold transition ${
-            sortBy === 'winRate' ? 'bg-blue-500 text-white' : 'bg-white/5 text-gray-400 hover:bg-white/10'
+            sortBy === 'winRate' ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-white/5 text-gray-700 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-white/10'
           }`}
         >
           <Award className="w-4 h-4 inline mr-2" />
@@ -115,7 +116,7 @@ export default function Leaderboard() {
         <button
           onClick={() => setSortBy('trades')}
           className={`px-4 py-2 rounded-lg font-semibold transition ${
-            sortBy === 'trades' ? 'bg-purple-500 text-white' : 'bg-white/5 text-gray-400 hover:bg-white/10'
+            sortBy === 'trades' ? 'bg-purple-500 text-white' : 'bg-gray-200 dark:bg-white/5 text-gray-700 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-white/10'
           }`}
         >
           <Users className="w-4 h-4 inline mr-2" />
@@ -124,7 +125,7 @@ export default function Leaderboard() {
         <button
           onClick={() => setSortBy('level')}
           className={`px-4 py-2 rounded-lg font-semibold transition ${
-            sortBy === 'level' ? 'bg-yellow-500 text-white' : 'bg-white/5 text-gray-400 hover:bg-white/10'
+            sortBy === 'level' ? 'bg-yellow-500 text-white' : 'bg-gray-200 dark:bg-white/5 text-gray-700 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-white/10'
           }`}
         >
           <Trophy className="w-4 h-4 inline mr-2" />
@@ -135,83 +136,91 @@ export default function Leaderboard() {
       {/* Leaderboard List */}
       <div className="space-y-3">
         {MOCK_LEADERBOARD.map((entry, index) => (
-          <motion.div
-            key={entry.address}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.05 }}
-            className={`relative bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 hover:bg-white/10 transition group ${
-              entry.rank <= 3 ? 'shadow-lg' : ''
-            }`}
-          >
-            {/* Top 3 Glow Effect */}
-            {entry.rank <= 3 && (
-              <div className="absolute inset-0 rounded-xl opacity-20 blur-xl" style={{
-                background: entry.rank === 1 ? '#fbbf24' : entry.rank === 2 ? '#d1d5db' : '#d97706'
-              }}></div>
-            )}
+          <Link key={entry.address} href={`/profile/${entry.address}`}>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.05 }}
+              className={`relative bg-white/70 dark:bg-white/5 backdrop-blur-md border border-gray-300 dark:border-white/10 rounded-xl p-4 hover:bg-white dark:hover:bg-white/10 transition group cursor-pointer ${
+                entry.rank <= 3 ? 'shadow-lg' : ''
+              }`}
+            >
+              {/* Top 3 Glow Effect */}
+              {entry.rank <= 3 && (
+                <div className="absolute inset-0 rounded-xl opacity-20 blur-xl" style={{
+                  background: entry.rank === 1 ? '#fbbf24' : entry.rank === 2 ? '#d1d5db' : '#d97706'
+                }}></div>
+              )}
 
-            <div className="relative flex items-center gap-4">
-              {/* Rank Badge */}
-              <div className={`flex-shrink-0 w-16 h-16 rounded-lg ${getRankBadgeColor(entry.rank)} flex items-center justify-center`}>
-                {getRankIcon(entry.rank)}
-              </div>
-
-              {/* Trader Info */}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <p className="text-white font-bold truncate">
-                    {entry.username || entry.address}
-                  </p>
-                  <span className="px-2 py-0.5 bg-purple-500/20 text-purple-400 rounded-full text-xs font-bold">
-                    Lv.{entry.level}
-                  </span>
+              <div className="relative flex items-center gap-4">
+                {/* Rank Badge */}
+                <div className={`flex-shrink-0 w-16 h-16 rounded-lg ${getRankBadgeColor(entry.rank)} flex items-center justify-center`}>
+                  {getRankIcon(entry.rank)}
                 </div>
-                {entry.username && (
-                  <p className="text-gray-400 text-sm font-mono truncate">{entry.address}</p>
-                )}
-              </div>
 
-              {/* Stats Grid */}
-              <div className="hidden md:grid grid-cols-3 gap-6 text-sm">
-                <div className="text-right">
-                  <p className="text-gray-400">P&L</p>
-                  <p className={`font-bold ${entry.totalPnL >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                {/* Trader Info */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <p className="text-gray-900 dark:text-white font-bold truncate">
+                      {entry.username || entry.address}
+                    </p>
+                    <span className="px-2 py-0.5 bg-purple-500/20 text-purple-600 dark:text-purple-400 rounded-full text-xs font-bold">
+                      Lv.{entry.level}
+                    </span>
+                  </div>
+                  {entry.username && (
+                    <p className="text-gray-600 dark:text-gray-400 text-sm font-mono truncate">{entry.address}</p>
+                  )}
+                </div>
+
+                {/* Stats Grid */}
+                <div className="hidden md:grid grid-cols-3 gap-6 text-sm">
+                  <div className="text-right">
+                    <p className="text-gray-600 dark:text-gray-400">P&L</p>
+                    <p className={`font-bold ${entry.totalPnL >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                      ${entry.totalPnL.toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-gray-600 dark:text-gray-400">Win Rate</p>
+                    <p className="text-gray-900 dark:text-white font-bold">{entry.winRate}%</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-gray-600 dark:text-gray-400">Trades</p>
+                    <p className="text-gray-900 dark:text-white font-bold">{entry.totalTrades}</p>
+                  </div>
+                </div>
+
+                {/* Mobile Stats */}
+                <div className="md:hidden text-right">
+                  <p className={`text-lg font-bold ${entry.totalPnL >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
                     ${entry.totalPnL.toLocaleString()}
                   </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{entry.winRate}% • {entry.totalTrades} trades</p>
                 </div>
-                <div className="text-right">
-                  <p className="text-gray-400">Win Rate</p>
-                  <p className="text-white font-bold">{entry.winRate}%</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-gray-400">Trades</p>
-                  <p className="text-white font-bold">{entry.totalTrades}</p>
-                </div>
-              </div>
 
-              {/* Mobile Stats */}
-              <div className="md:hidden text-right">
-                <p className={`text-lg font-bold ${entry.totalPnL >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                  ${entry.totalPnL.toLocaleString()}
-                </p>
-                <p className="text-sm text-gray-400">{entry.winRate}% • {entry.totalTrades} trades</p>
+                {/* View Profile Indicator */}
+                <div className="opacity-0 group-hover:opacity-100 transition">
+                  <UserCircle className="w-6 h-6 text-purple-500" />
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </Link>
         ))}
       </div>
 
       {/* Your Rank (if logged in) */}
-      <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-md border border-purple-500/50 rounded-xl p-4">
+      <div className="bg-gradient-to-r from-purple-200 to-pink-200 dark:from-purple-500/20 dark:to-pink-500/20 backdrop-blur-md border border-purple-500/50 rounded-xl p-4">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-gray-400 text-sm">Your Rank</p>
-            <p className="text-2xl font-bold text-white">#42</p>
+            <p className="text-gray-700 dark:text-gray-400 text-sm">Your Rank</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-white">#42</p>
           </div>
-          <button className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:opacity-90 transition">
-            Climb the Ranks
-          </button>
+          <Link href="/trade">
+            <button className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg font-semibold hover:opacity-90 transition">
+              Climb the Ranks
+            </button>
+          </Link>
         </div>
       </div>
     </div>

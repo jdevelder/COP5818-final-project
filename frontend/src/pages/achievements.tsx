@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import WalletButton from '@/components/WalletButton';
+import ThemeToggle from '@/components/ThemeToggle';
 import AchievementsPanel from '@/components/AchievementsPanel';
 import MobileNav from '@/components/MobileNav';
 
@@ -35,7 +36,10 @@ export default function AchievementsPage() {
                   <p className="text-gray-400 text-sm">Track your progress and earn rewards</p>
                 </div>
               </div>
-              <WalletButton />
+              <div className="flex items-center gap-3">
+                <ThemeToggle />
+                <WalletButton />
+              </div>
             </div>
           </div>
         </header>

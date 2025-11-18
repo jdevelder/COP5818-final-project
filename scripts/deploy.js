@@ -119,7 +119,10 @@ async function main() {
     await priceOracle.updatePrice("Charizard-BaseSet-Rare", hre.ethers.parseEther("10"), 95);
     await priceOracle.updatePrice("BlackLotus-Alpha-Mythic", hre.ethers.parseEther("100000"), 98);
     await priceOracle.updatePrice("PikachuEX-XY-Rare", hre.ethers.parseEther("5"), 90);
-    console.log("Initial prices set!");
+    await priceOracle.updatePrice("TimeWalk-Alpha-Rare", hre.ethers.parseEther("15000"), 97);
+    await priceOracle.updatePrice("Blastoise-BaseSet-Rare", hre.ethers.parseEther("9"), 92);
+    await priceOracle.updatePrice("Venusaur-BaseSet-Rare", hre.ethers.parseEther("7"), 91);
+    console.log("Initial prices set for all 6 cards!");
   }
 
   console.log("\nDeployment completed successfully!");
